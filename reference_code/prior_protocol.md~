@@ -1,6 +1,6 @@
 Operation Breakdown
 
-    1: Search Username
+    Search Username
         Request (Opcode 0x01):
             4 bytes: Total length
             1 byte: Opcode (0x01)
@@ -11,7 +11,7 @@ Operation Breakdown
             1 byte: Opcode (0x02)
             1 byte: Status code (0x00 indicates available)
 
-    2: Create Account
+    Create Account
         Request (Opcode 0x03):
             4 bytes: Total length
             1 byte: Opcode (0x03)
@@ -23,7 +23,7 @@ Operation Breakdown
             1 byte: Opcode (0x04)
             32 bytes: Session token
 
-    3: Log into Account
+    Log into Account
         Request (Opcode 0x05):
             4 bytes: Total length
             1 byte: Opcode (0x05)
@@ -37,7 +37,7 @@ Operation Breakdown
             32 bytes: Session token
             4 bytes: Unread messages count
 
-    4: Log out of Account
+    Log out of Account
         Request (Opcode 0x07):
             4 bytes: Total length
             1 byte: Opcode (0x07)
@@ -47,7 +47,7 @@ Operation Breakdown
             4 bytes: Total length
             1 byte: Opcode (0x08)
 
-    5: List Accounts
+    List Accounts
         Request (Opcode 0x09):
             4 bytes: Total length
             1 byte: Opcode (0x09)
@@ -63,7 +63,7 @@ Operation Breakdown
                 2 bytes: Username length
                 n bytes: Username (UTF‑8)
 
-    6: Display Conversation
+    Display Conversation
         Request (Opcode 0x11):
             4 bytes: Total length
             1 byte: Opcode (0x11)
@@ -80,7 +80,7 @@ Operation Breakdown
                 1 byte: Sender flag (0x01 if the message is sent by the requester, else 0x00)
                 n bytes: Message content (UTF‑8)
 
-    7: Send Message
+    Send Message
         Request (Opcode 0x13):
             4 bytes: Total length
             1 byte: Opcode (0x13)
@@ -93,7 +93,7 @@ Operation Breakdown
             4 bytes: Total length
             1 byte: Opcode (0x14)
 
-    8: Read Messages
+    Read Messages
         Request (Opcode 0x15):
             4 bytes: Total length
             1 byte: Opcode (0x15)
@@ -104,7 +104,7 @@ Operation Breakdown
             4 bytes: Total length
             1 byte: Opcode (0x16)
 
-    9: Delete Message
+    Delete Message
         Request (Opcode 0x17):
             4 bytes: Total length
             1 byte: Opcode (0x17)
@@ -115,7 +115,7 @@ Operation Breakdown
             4 bytes: Total length
             1 byte: Opcode (0x18)
 
-    10: Delete Account
+    Delete Account
         Request (Opcode 0x19):
             4 bytes: Total length
             1 byte: Opcode (0x19)
@@ -125,7 +125,7 @@ Operation Breakdown
             4 bytes: Total length
             1 byte: Opcode (0x20)
 
-    11: Get Unread Messages
+    Get Unread Messages
         Request (Opcode 0x21):
             4 bytes: Total length
             1 byte: Opcode (0x21)
@@ -140,7 +140,7 @@ Operation Breakdown
                 2 bytes: Sender ID
                 2 bytes: Receiver ID
 
-    12: Get Message Information
+    Get Message Information
         Request (Opcode 0x23):
             4 bytes: Total length
             1 byte: Opcode (0x23)
@@ -155,7 +155,7 @@ Operation Breakdown
             2 bytes: Content length
             n bytes: Message content (UTF‑8)
 
-    13: Get Username by ID
+    Get Username by ID
         Request (Opcode 0x25):
             4 bytes: Total length
             1 byte: Opcode (0x25)
@@ -166,7 +166,7 @@ Operation Breakdown
             2 bytes: Username length
             n bytes: Username (UTF‑8)
 
-    14: Mark Message as Read
+    Mark Message as Read
         Request (Opcode 0x27):
             4 bytes: Total length
             1 byte: Opcode (0x27)
@@ -177,7 +177,7 @@ Operation Breakdown
             4 bytes: Total length
             1 byte: Opcode (0x28)
 
-    15: Get User by Username
+    Get User by Username
         Request (Opcode 0x29):
             4 bytes: Total length
             1 byte: Opcode (0x29)
