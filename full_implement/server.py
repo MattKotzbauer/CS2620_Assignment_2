@@ -1,10 +1,11 @@
+# server.py
 import sys
 from concurrent import futures
 import grpc
 
 import driver
-import core_users
 import core_entities
+import core_structures
 
 # Generated from your exp.proto
 import exp_pb2
