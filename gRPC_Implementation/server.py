@@ -13,9 +13,22 @@ import exp_pb2_grpc
 
 class MessagingServiceServicer(exp_pb2_grpc.MessagingServiceServicer):
     """
-    A gRPC-based server that implements the 13 RPCs from your exp.proto.
-    Uses driver, core_users, and core_entities under the hood, as in your
-    former socket-based approach.
+    Functions defined server-side within our gRPC client-server communication: 
+     1) CreateAccount
+     2) Login
+     3) ListAccounts
+     4) DisplayConversation
+     5) SendMessage
+     6) ReadMessages
+     7) DeleteMessage
+     8) DeleteAccount
+     9) GetUnreadMessages
+     10) GetMessageInformation
+     11) GetUsernameByID
+     12) MarkMessageAsRead
+     13) GetUserByUsername
+
+    A concise listing of the input / output fields for each of these can be found in exp.proto.
     """
 
     # --------------------------------------------------------------------------
