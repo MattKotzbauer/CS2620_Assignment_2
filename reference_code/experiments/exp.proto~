@@ -36,3 +36,4 @@ message LoginResponse {
     bytes session_token = 2; // 32-byte session token
     uint32 unread_count = 3; // 4-byte unread message count
 }
+

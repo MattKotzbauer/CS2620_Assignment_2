@@ -1,0 +1,114 @@
+import grpc
+from concurrent import futures
+import os
+
+# Import the generated classes from your .proto
+import exp_pb2
+import exp_pb2_grpc
+
+
+class MessagingServiceServicer(exp_pb2_grpc.MessagingServiceServicer):
+    """
+    A gRPC service that manages user accounts, sessions, and unread counts
+    using in-memory dictionaries.
+    """
+
+    def __init__(self):
+        # For demo: store credentials and sessions in memory
+        # username -> hashed_password (bytes)
+        self.accounts = {}
+        # username -> session_token (bytes)
+        self.sessions = {}
+        # username -> unread_count (int)
+        self.user_unread_counts = {}
+
+    # --------------------------------------------------------------------------
+    # 1) CreateAccount
+    # --------------------------------------------------------------------------
+    def CreateAccount(self, request, context):
+        """
+        Implementation of the CreateAccount RPC:
+        Input: CreateAccountRequest { string username, bytes password_hash }
+        Output: CreateAccountResponse { bytes session_token }
+
+        For demonstration, we'll overwrite any existing account or
+        simply store the new one, generating a random 32-byte session token.
+        """
+        username = request.username
+        password_hash = request.password_hash  # 32-byte digest
+
+        print(f"[SERVER] CreateAccount called for username='{username}'")
+
+        # (Optional) You could check if the account already exists.
+        # For a real app, you’d typically block a duplicate. Here, we allow overwrites.
+        self.accounts[username] = password_hash
+        self.user_unread_counts[username] = self.user_unread_counts.get(username, 0)
+
+        # Generate a fresh session token
+        session_token = os.urandom(32)
+        self.sessions[username] = session_token
+
+        return exp_pb2.CreateAccountResponse(session_token=session_token)
+
+    # --------------------------------------------------------------------------
+    # 2) Login
+    # --------------------------------------------------------------------------
+    def Login(self, request, context):
+        """
+        Implementation of the Login RPC:
+        Input:  LoginRequest { string username, bytes password_hash }
+        Output: LoginResponse { Status status, bytes session_token, uint32 unread_count }
+
+        We check the stored password hash, and if valid, generate a new session token.
+        """
+        username = request.username
+        password_hash = request.password_hash  # 32 bytes
+
+        print(f"[SERVER] Login called for username='{username}'")
+
+        # Default: FAIL
+        status = exp_pb2.LoginResponse.FAILURE
+        session_token = b"\x00" * 32  # zero-filled placeholder
+        unread_count = 0
+
+        if username in self.accounts:
+            stored_hash = self.accounts[username]
+            if stored_hash == password_hash:
+                # Valid login
+                status = exp_pb2.LoginResponse.SUCCESS
+                # Generate fresh session token
+                session_token = os.urandom(32)
+                self.sessions[username] = session_token
+                unread_count = self.user_unread_counts.get(username, 0)
+            else:
+                print(f"[SERVER] Invalid password for user '{username}'")
+        else:
+            print(f"[SERVER] Username '{username}' not found.")
+
+        return exp_pb2.LoginResponse(
+            status=status,
+            session_token=session_token,
+            unread_count=unread_count
+        )
+
+
+def serve(host="127.0.0.1", port=50051):
+    """Start the gRPC server and listen on the given host/port."""
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    exp_pb2_grpc.add_MessagingServiceServicer_to_server(
+        MessagingServiceServicer(), server
+    )
+
+    server_address = f"{host}:{port}"
+    server.add_insecure_port(server_address)
+    server.start()
+    print(f"[SERVER] gRPC listening on {server_address}")
+
+    try:
+        server.wait_for_termination()
+    except KeyboardInterrupt:
+        print("[SERVER] Shutting down.")
+
+
+if __name__ == "__main__":
+    serve()
