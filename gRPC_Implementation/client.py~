@@ -10,7 +10,7 @@ import exp_pb2_grpc
 
 class Client:
     """
-    A gRPC-based client with 13 methods matching the server's RPCs exactly:
+    Functions that we define within our gRPC client-server communication: 
      1) CreateAccount
      2) Login
      3) ListAccounts
@@ -25,8 +25,8 @@ class Client:
      12) MarkMessageAsRead
      13) GetUserByUsername
 
-    Each docstring references the original wire protocol (opcodes, length fields),
-    but internally we call gRPC methods from exp_pb2_grpc.MessagingServiceStub.
+    (The byte content of each docstring references the original wire protocol (opcodes, length fields),
+    but we internally call gRPC methods from exp_pb2_grpc.MessagingServiceStub)
     """
 
     def __init__(self, host: str = "127.0.0.1", port: int = 50051):

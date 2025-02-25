@@ -481,6 +481,55 @@ class Client:
         else:
             return (False, None)
 
+    def create_account(self, username, password):
+        return self.CreateAccount(username, password)
+
+    def log_into_account(self, username, password):
+        return self.Login(username, password)
+
+    def list_accounts(self, user_id, session_token, wildcard):
+        return self.ListAccounts(user_id, session_token, wildcard)
+
+    def display_conversation(self, user_id, session_token, conversant_id):
+        return self.DisplayConversation(user_id, session_token, conversant_id)
+    
+    def send_message(self, sender_user_id, session_token, recipient_user_id, message_content):
+        return self.SendMessage(sender_user_id, session_token, recipient_user_id, message_content)
+
+    def read_messages(self, user_id, session_token, number_of_messages_req):
+        return self.ReadMessages(user_id, session_token, number_of_messages_req)
+
+    def delete_message(self, user_id, message_uid, session_token):
+        return self.DeleteMessage(user_id, message_uid, session_token)
+    
+    def delete_account(self, user_id, session_token):
+        return self.DeleteAccount(user_id, session_token)
+
+    def get_unread_messages(self, user_id, session_token):
+        return self.GetUnreadMessages(user_id, session_token)
+
+    def get_message_info(self, user_id, session_token, message_uid):
+        # Get a 4-tuple from GetMessageInformation
+        read_flag, sender_id, content_length, message_content = self.GetMessageInformation(user_id, session_token, message_uid)
+    
+        # Return only the 3 elements the GUI expects
+        return (read_flag, sender_id, message_content)
+    
+    # def get_message_info(self, user_id, session_token, message_uid):
+        # return self.GetMessageInformation(user_id, session_token, message_uid)
+    
+    def get_username_by_id(self, user_id):
+        return self.GetUsernameByID(user_id)
+
+    def mark_message_as_read(self, user_id, session_token, message_uid):
+        return self.MarkMessageAsRead(user_id, session_token, message_uid)
+    
+    def get_user_by_username(self, username):
+        return self.GetUserByUsername(username)
+
+    def hash_password(self, password: str):
+        return hashlib.sha256(password.encode()).hexdigest()
+        
 
 if __name__ == "__main__":
     # Simple usage example:
