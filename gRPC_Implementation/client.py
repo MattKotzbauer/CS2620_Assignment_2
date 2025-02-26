@@ -515,9 +515,6 @@ class Client:
         # Return only the 3 elements the GUI expects
         return (read_flag, sender_id, message_content)
     
-    # def get_message_info(self, user_id, session_token, message_uid):
-        # return self.GetMessageInformation(user_id, session_token, message_uid)
-    
     def get_username_by_id(self, user_id):
         return self.GetUsernameByID(user_id)
 
